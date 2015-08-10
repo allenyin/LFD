@@ -153,15 +153,18 @@ def plot_fn_and_data(fn, data, fign=1):
     pos = data[data[:,2]==1, :]
     neg = data[data[:,2]==-1, :]
 
-    plt.plot(pos[:,0], pos[:,1], '+', markersize=20)
-    plt.plot(neg[:,0], neg[:,1], '_', markersize=20)
+    plt.plot(pos[:,0], pos[:,1], '+', markersize=20, markeredgewidth=5, color='red')
+    plt.plot(neg[:,0], neg[:,1], '_', markersize=20, markeredgewidth=5, color='blue')
+
+    topline = np.ones(len(yy))
+    botline = topline*-1
+    plt.fill_between(xx, y1=yy, y2=topline, interpolate=True, color='LightCoral')
+    plt.fill_between(xx, y1=yy, y2=botline, interpolate=True, color='LightBlue')
 
     plt.axis([-1,1,-1,1])
     plt.show()
     
 ################################################################
-
-
 
 """
 Choose random line, generate N points, and run PLA until convergence. Find 
@@ -170,38 +173,39 @@ how many steps it takes, and average them for problem 7 and 9.
 Also, for each line, generate large dataset of points to test misclassification rate.
 Average the number of classification errors for problem 8 and 10.
 """
-lim = 10000
-ntest = 5000
-N = 100
-convergence_steps = np.ones((1000,1))*np.NAN
-misclassification_rate = np.ones((1000,1))*np.NAN
-for i in range(1000):
-    fn = generate_targetFn()
-    training_data = generate_dataPoints_fromFn(N, fn)
+if __name__ == "__main__":
 
-    # find number of steps for this trained classifier
-    classifier = PLA(training_data)
-    steps = 0
-    while steps < lim:
-        if classifier.has_converged():
-            break
-        else:
-            if classifier.step():
-                steps += 1
-    convergence_steps[i] = steps
+    lim = 10000
+    ntest = 5000
+    N = 100
+    convergence_steps = np.ones((1000,1))*np.NAN
+    misclassification_rate = np.ones((1000,1))*np.NAN
+    for i in range(1000):
+        fn = generate_targetFn()
+        training_data = generate_dataPoints_fromFn(N, fn)
 
-    # make testing data
-    testing_data = generate_dataPoints_fromFn(ntest, fn)
-    (results, misclassified) = classifier.classify(testing_data)
-    misclassification_rate[i] = misclassified/(ntest*1.0)
+        # find number of steps for this trained classifier
+        classifier = PLA(training_data)
+        steps = 0
+        while steps < lim:
+            if classifier.has_converged():
+                break
+            else:
+                if classifier.step():
+                    steps += 1
+        convergence_steps[i] = steps
 
-print "average convergence steps = %0.3f" % (convergence_steps.mean())
-print "average misclassification = %0.3f" % (misclassification_rate.mean())
+        # make testing data
+        testing_data = generate_dataPoints_fromFn(ntest, fn)
+        (results, misclassified) = classifier.classify(testing_data)
+        misclassification_rate[i] = misclassified/(ntest*1.0)
+
+    print "average convergence steps = %0.3f" % (convergence_steps.mean())
+    print "average misclassification = %0.3f" % (misclassification_rate.mean())
 
 ########################################################################
-"""
 #Initial testing code
-
+"""
 N = 10
 fn = generate_targetFn()
 data = generate_dataPoints_fromFn(N, fn)
@@ -226,4 +230,3 @@ plot_fn_and_data(classifier1_fn, data, fign)
 fign = 2
 plot_fn_and_data(fn, data, fign)
 """
-
