@@ -6,6 +6,12 @@ questions 7-10
 import numpy as np
 import matplotlib.pyplot as plt
 
+import sys
+import os
+LFDpath = "/".join(os.path.dirname(__file__).split('/')[0:-1])
+if not LFDpath in sys.path:
+    sys.path.append(LFDpath)
+
 np.set_printoptions(precision=4)    # set printing precision
 np.set_printoptions(threshold=10)    # print only 5 nums per array
 
@@ -16,7 +22,7 @@ class PLA(object):
 
         Atributes:
             w: Weights of the classifier, sign(w[0]+w[1]*x+w[2]*y) determines
-               the classification of the dataponit (x,y)
+               the classification of the dataponit (x,y). By default is 0
             N: Number of training data available.
             data: Training data available to the classifier. Modified from the
                   input data to be: (1, x, y, correct_sign, cur_sign), where
@@ -26,17 +32,17 @@ class PLA(object):
             data: Nx3 array. Each row=data point--(x,y,sign). sign= +1 or -1.
   """
 
-    def __init__(self, data):
+    def __init__(self, data, weights = np.array([0,0,0])):
         """
             Initialize with all weight=0
         """
         
-        self.w = np.array([0,0,0])
+        self.w = weights
         # reformat data to include the constant term for easier computation
         self.N = data.shape[0]
-        self.data = np.ones((N, 5))
+        self.data = np.ones((self.N, 5))
         self.data[:, 1:4] = data
-        self.data[:, [4]] = np.zeros((N,1))
+        self.data[:, [4]] = np.zeros((self.N, 1))
 
     def has_converged(self):
         """
@@ -85,6 +91,20 @@ class PLA(object):
                 misclassified += 1
         #print "%d points misclassified." % (misclassified)
         return (results, misclassified)
+
+    def train(self, lim = 10000):
+        """
+            Train the classifier until convergence or steps exceeding lim.
+            Return the number of steps taken
+        """
+        steps = 0
+        while steps < lim:
+            if self.has_converged():
+                break
+            else:
+                if self.step():
+                    steps += 1
+        return steps
         
     def __str__(self):
         """
@@ -109,7 +129,6 @@ def generate_dataPoints_fromFn(N, fn):
         Return in a Nx3 array: (x,y,sign)
     """
     data = np.zeros((N, 3))
-    data[:, 0:2] = np.random.uniform(-1, 1, (N,2))
     slope = fn[0]
     intercept = fn[1]
 
@@ -175,7 +194,7 @@ Average the number of classification errors for problem 8 and 10.
 """
 if __name__ == "__main__":
 
-    lim = 10000
+    step_lim = 10000
     ntest = 5000
     N = 100
     convergence_steps = np.ones((1000,1))*np.NAN
@@ -186,14 +205,7 @@ if __name__ == "__main__":
 
         # find number of steps for this trained classifier
         classifier = PLA(training_data)
-        steps = 0
-        while steps < lim:
-            if classifier.has_converged():
-                break
-            else:
-                if classifier.step():
-                    steps += 1
-        convergence_steps[i] = steps
+        convergence_steps[i] = classifier.train(lim = step_lim)
 
         # make testing data
         testing_data = generate_dataPoints_fromFn(ntest, fn)
