@@ -1,5 +1,5 @@
 """
-Code for plotting different generalization error bounds for Homework 4
+Code for calculating different generalization error bounds for Homework 4
 
 Question 2-3
 """
@@ -83,8 +83,3 @@ def problem3():
            devroye = %0.5f" \
           % (original_VC(n, dvc, delta), Rademacher(n, dvc, delta), \
              Parronda(n, dvc, delta), Devroye(n, dvc, delta))
-
-
-
-        
-
