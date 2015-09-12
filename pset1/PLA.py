@@ -110,7 +110,8 @@ class PLA(object):
         """
             Print the weights for this instance of PLA
         """
-        return "w = [%04d, %04d, %04d]" % (w[0],w[1],w[2])
+        s = "w = [%0.4f, %0.4f, %0.4f]" % (self.w[0], self.w[1], self.w[2])
+        return s
 ####################################################################
 
 def generate_dataPoints(N):
