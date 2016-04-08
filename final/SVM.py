@@ -8,7 +8,42 @@ import numpy as np
 from sklearn.svm import SVC
 from sklearn import cross_validation
 
+import matplotlib.pyplot as plt
+
 import cvxopt
+
+# (x1,x2,y) - points to operate on
+points = np.array([ [1,0,-1],[0,1,-1],[0,-1,-1],[-1,0,1],[0,2,1],[0,-2,1],[-2,0,1]])
+
+"""
+Problem 11,
+
+Transform points into z-space. Plot them
+"""
+def problem11():
+    results = np.array([ [p[1]**2-2*p[0]-1, p[0]**2-2*p[1]+1, p[2]] for p in points])
+    fig, ax = plt.subplots()
+    pos = np.array([p for p in results if p[2]==1])
+    neg = np.array([p for p in results if p[2]==-1])
+
+    plt.plot(pos[:,0], pos[:,1], '+', markersize=10, markeredgewidth=1, color='red')
+    plt.plot(neg[:,0], neg[:,1], '*', markersize=10, markeredgewidth=1, color='blue')
+
+    plt.axis([-10,10,-10,10])
+    major_ticks = np.arange(-10,10,1)
+    ax.set_xticks(major_ticks)
+    ax.set_yticks(major_ticks)
+
+
+    ax.set_aspect('equal')
+    ax.grid(True, which='both')
+    ax.spines['left'].set_position('zero')
+    ax.spines['right'].set_color('none')
+    ax.spines['bottom'].set_position('zero')
+    ax.spines['top'].set_color('none')
+
+    plt.show()
+    return results
 
 """
 Problem 12,
@@ -17,8 +52,6 @@ Apply hard-margin SVM algorithm with second-order polynomial transformation,
 on dual-problem on dataset of 7 points
 """
 
-# (x1,x2,y)
-points = np.array([ [1,0,-1],[0,1,-1],[0,-1,-1],[-1,0,1],[0,2,1],[0,-2,1],[-2,0,1]])
 def problem12():
     """
     libSVM just for fun
