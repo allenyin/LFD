@@ -149,8 +149,6 @@ def libSVM_RBF(data, gamma):
     #print "Number of support vectors from sklearn is %d" % sum(clf.n_support_)
     return clf
 
-# TODO, implement using only QP
-
 def problem13(M):
     """
     gamma=1.5, run hard-margin SVM-RBF on 100-points training set for M times
@@ -313,11 +311,6 @@ def problem18(M=1000):
     Ein, Eout = runRBF_network(M, gamma, K)
     print "Regular RBF with K=9, gamma=1.5 achieves Ein=0, %0.3f%% of the time" % (sum(Ein==0)*100./M)[0]
     return Ein,Eout
-
-
-    
-
-
 
 """
 Given libsvm result and data set, plot the separating plane, margin and the data points
