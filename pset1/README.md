@@ -1,3 +1,6 @@
+[pset](https://work.caltech.edu/homework/hw1.pdf)
+[pset solution](https://work.caltech.edu/homework/hw1_sol.pdf)
+
 For Problem 7, number of training datapoints is 10. Training 1000 different classifiers took on average 9.053 steps to converge.
 
 For Problem 8, used the classifiers trained with 10 datapoints previously, and tested the performance on 5000 generated test-points (with the same target-function that was used to generate the original training points). The misclassification of the 1000 different classifiers was on average 0.11.
