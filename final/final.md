@@ -19,13 +19,14 @@ Run `problem12()` to train the classifier and give the number of support vectors
 
 These series of questions compares using RBF for classification:
 
-    1. The regular way - select k centers from training data set through Lloyd's clustering algorithm, then train the classifier as a regression problem, with the basis as RBF centered arouund these centers.
-    2. The SVM way - Use hard-margin SVM with RBF kernel. Implemented using `sklearn` module.
+1. The regular way - select k centers from training data set through Lloyd's clustering algorithm, then train the classifier as a regression problem, with the basis as RBF centered arouund these centers.
+2. The SVM way - Use hard-margin SVM with RBF kernel. Implemented using `sklearn` module.
 
 Utility functions:
-    1. `generateData(n=100)` to generate number of desired data points for these problem, format `[x1, x2, f(x1,x2)]`
-    2. `plot_fn_and_data(data, fign=1)` plots the data points along with the sampling function.
-    3. `lloyd_clustering(data, K, plot=True)` finds K centers for the given data set. Initialize the centers prior to the first iteration via greedy algorithm rather than randomly select points. This is for faster convergence. Iteration upper limit set to 100. Option `plot`, when set to `True`, will plot the data points with the initial centers in the beginning, and the data points with the converged centers at the end, as well as printing the number of iterations taken and the error.
+
+1. `generateData(n=100)` to generate number of desired data points for these problem, format `[x1, x2, f(x1,x2)]`
+2. `plot_fn_and_data(data, fign=1)` plots the data points along with the sampling function.
+3. `lloyd_clustering(data, K, plot=True)` finds K centers for the given data set. Initialize the centers prior to the first iteration via greedy algorithm rather than randomly select points. This is for faster convergence. Iteration upper limit set to 100. Option `plot`, when set to `True`, will plot the data points with the initial centers in the beginning, and the data points with the converged centers at the end, as well as printing the number of iterations taken and the error.
 
 Problem 13 - Run `problem13()`
 
