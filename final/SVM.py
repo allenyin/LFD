@@ -1,7 +1,7 @@
 """
 LFD Final pset
 
-Code for questions on SVM and Radio Basis Functions
+Code for questions on SVM
 """
 
 import numpy as np
@@ -15,12 +15,11 @@ import cvxopt
 # (x1,x2,y) - points to operate on
 points = np.array([ [1,0,-1],[0,1,-1],[0,-1,-1],[-1,0,1],[0,2,1],[0,-2,1],[-2,0,1]])
 
-"""
-Problem 11,
-
-Transform points into z-space. Plot them
-"""
 def problem11():
+    """
+    Transform points into z-space. Plot them
+    """
+
     results = np.array([ [p[1]**2-2*p[0]-1, p[0]**2-2*p[1]+1, p[2]] for p in points])
     fig, ax = plt.subplots()
     pos = np.array([p for p in results if p[2]==1])
@@ -45,17 +44,14 @@ def problem11():
     plt.show()
     return results
 
-"""
-Problem 12,
-
-Apply hard-margin SVM algorithm with second-order polynomial transformation,
-on dual-problem on dataset of 7 points
-"""
 
 def problem12():
     """
-    libSVM just for fun
+    Apply hard-margin SVM algorithm with second-order polynomial transformation,
+    on dual-problem on dataset of 7 points
     """
+
+    #libSVM just for fun
     C = np.inf
     Q = 2
     clf = SVC(C=C, kernel='poly', degree=Q, gamma=1, coef0=1)
